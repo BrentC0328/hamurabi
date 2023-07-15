@@ -1,4 +1,5 @@
 package hammurabi.src.main.java;
+
 import java.util.Random;
 import java.util.Scanner;
 
@@ -28,27 +29,25 @@ public class Hammurabro {
 
         while (year <= 10) {
 
-            System.out.println(scanner.printSummary(year, peopleDead, peopleEntered, player.getPeople(), bushelsHarvested, bushelsPerAcre, player.getAcresOfLand(), player.getLandValue()));
+            System.out.println(scanner.printSummary(year, peopleDead, peopleEntered, player.getPeople(), bushelsHarvested,
+                    bushelsPerAcre, player.getBushelsOfGrain(), player.getAcresOfLand(), player.getLandValue()));
 
             Integer boughtAcres = scanner.askHowManyAcresToBuy(landValue, bushelsOfGrain);
             player.setAcresOfLand(acresOfLand + boughtAcres);
             player.setBushelsOfGrain(bushelsOfGrain - (boughtAcres * landValue));
 
-            if (boughtAcres == 0){
-            Integer soldAcres = scanner.askHowManyAcresToSell(acresOfLand);
-            player.setAcresOfLand(acresOfLand - soldAcres);
-            player.setBushelsOfGrain(bushelsOfGrain - (soldAcres * landValue));
+            if (boughtAcres == 0) {
+                Integer soldAcres = scanner.askHowManyAcresToSell(acresOfLand);
+                player.setAcresOfLand(acresOfLand - soldAcres);
+                player.setBushelsOfGrain(bushelsOfGrain - (soldAcres * landValue));
             }
 
             Integer grainsToFeedPeople = scanner.askHowMuchGrainToFeedPeople(bushelsOfGrain);
-            player.setPeople(player.getPeople() - (player.getPeople() - (grainsToFeedPeople/ 20)));
+            player.setPeople(player.getPeople() - (player.getPeople() - (grainsToFeedPeople / 20)));
 
             Integer acresToPlant = scanner.askHowManyAcresToPlant(acresOfLand, population, bushelsOfGrain);
             player.setAcresOfLand(player.getAcresOfLand() + acresToPlant);
             player.setBushelsOfGrain(player.getBushelsOfGrain() - (acresToPlant * 2));
-
-
-
 
 
             year += 1;
