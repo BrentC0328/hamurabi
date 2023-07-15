@@ -6,18 +6,20 @@ public class RandomEvents {
     Random random = new Random();
 
     public Integer plagueDeaths(int population) {
+        int plagueChance = random.nextInt(100) + 1;
         int plagueDeaths = 0;
-        int beforePop = population;
-        if (random.nextDouble() >= .15) {
-            population = population / 2;
-            plagueDeaths = beforePop - population;
+        if (plagueChance >= 15) {
+            plagueDeaths = population / 2;
         }
 
-        return population;
+        return plagueDeaths;
     }
 
     public Integer starvationDeaths(int population, int bushelsFedToPeople) {
         int peopleFed = bushelsFedToPeople / 20;
+        if (peopleFed >= population){
+            return 0;
+        }
 
         //each population needs 20 bushels to be fed.
         return population - peopleFed;
@@ -46,13 +48,14 @@ public class RandomEvents {
     }
 
     public Integer grainEatenByRats(int bushels){
-        double randomPercentageEaten = (random.nextInt(3) + 1) * .1;
-        if (random.nextDouble() >= .40){
-            double ratEaten = bushels * randomPercentageEaten;
-            bushels = (int) (bushels - ratEaten);
+        int bushelsEatenChance = random.nextInt(100) + 1;
+        double eatenBushels = 0.0;
 
+        if (bushelsEatenChance >= 40){
+            double eatenPercenage = random.nextDouble(.099, .301);
+            eatenBushels = bushels * eatenPercenage;
         }
-        return bushels;
+        return (int) eatenBushels;
     }
 
     public Integer newCostOfLand(){

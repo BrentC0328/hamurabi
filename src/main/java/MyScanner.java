@@ -84,16 +84,16 @@ public class MyScanner {
     }
 
     public String printSummary(Integer year, Integer peopleDead, Integer peopleEntered, Integer population,
-                               Integer bushelsHarvested, Integer bushelsPerAcre, Integer bushels, Integer acresOfLand, Integer landValue) {
+                               Integer bushelsHarvested,Integer grainsEatenByRats, Integer bushels, Integer acresOfLand, Integer landValue) {
 
         StringBuilder summary = new StringBuilder();
         summary.append("O great Hammurabi!").append("\n")
                 .append("You are in year ").append(year).append(" of your ten year rule.").append("\n")
-                .append("In the previous year, ").append(peopleDead).append(" starved to death").append("\n")
-                .append("In the previous year ").append(peopleEntered).append(" entered the kingdom").append("\n")
+                .append("In the previous year, ").append(peopleDead).append(" citizens starved to death").append("\n")
+                .append("In the previous year ").append(peopleEntered).append(" new citizens have entered the kingdom").append("\n")
                 .append("The population is now ").append(population).append("\n")
-                .append("We harvested ").append(bushelsHarvested).append(" at ").append(bushelsPerAcre).append(" per acre.").append("\n")
-                .append("Rats destroyed ").append("INSERT GRAINS EATEN BY RATS HERE,").append(" leaving ").append(bushels).append(" in storage.").append("\n")
+                .append("We harvested ").append(bushelsHarvested).append(" bushels from the fields. ").append("\n")
+                .append("Rats have eaten ").append(grainsEatenByRats).append(" bushels, leaving ").append(bushels).append(" in storage.").append("\n")
                 .append("The city currently owns ").append(acresOfLand).append(" acres of land.").append("\n")
                 .append("Land is currently worth ").append(landValue).append(" bushels per acre.").append("\n");
 
