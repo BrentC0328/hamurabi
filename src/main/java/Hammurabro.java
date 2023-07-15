@@ -4,7 +4,6 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Hammurabro {
-    Random rand = new Random();
     MyScanner scanner = new MyScanner();
 
     public static void main(String[] args) {
@@ -48,6 +47,10 @@ public class Hammurabro {
             Integer acresToPlant = scanner.askHowManyAcresToPlant(acresOfLand, population, bushelsOfGrain);
             player.setAcresOfLand(player.getAcresOfLand() + acresToPlant);
             player.setBushelsOfGrain(player.getBushelsOfGrain() - (acresToPlant * 2));
+
+
+
+
 
 
             year += 1;
