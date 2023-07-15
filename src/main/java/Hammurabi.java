@@ -1,15 +1,14 @@
 package hammurabi.src.main.java;
 
 import java.util.Random;
-import java.util.Scanner;
 
-public class Hammurabro {
+public class Hammurabi {
     MyScanner scanner = new MyScanner();
     RandomEvents random = new RandomEvents();
     Random randomer = new Random();
 
     public static void main(String[] args) {
-        new Hammurabro().playGame();
+        new Hammurabi().playGame();
     }
 
     void playGame() {

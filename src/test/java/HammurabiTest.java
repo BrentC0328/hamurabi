@@ -2,14 +2,13 @@ package hammurabi.src.test.java;
 
 import static org.junit.Assert.*;
 
-import hammurabi.src.main.java.Hammurabro;
-import hammurabi.src.main.java.Hamurabi;
+import hammurabi.src.main.java.Hammurabi;
 import org.junit.Before;
 import org.junit.Test;
 
 public class HammurabiTest {
 
-    Hammurabro ham;
+    Hammurabi ham;
 
     boolean about(double expected, double actual) {
         return actual > 0.90 * expected && actual < 1.10 * expected;
@@ -17,7 +16,7 @@ public class HammurabiTest {
 
     @Before
     public void setUp() throws Exception {
-        ham = new Hammurabro();
+        ham = new Hammurabi();
     }
 
     @Test
