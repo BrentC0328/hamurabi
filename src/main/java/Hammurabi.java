@@ -4,7 +4,6 @@ import java.util.Random;
 
 public class Hammurabi {
     MyScanner scanner = new MyScanner();
-    RandomEvents random = new RandomEvents();
     Random randomer = new Random();
 
     public static void main(String[] args) {
@@ -22,10 +21,11 @@ public class Hammurabi {
         Integer plagueCount = population;
 
         Integer peopleStarved = 0;
-        Integer peopleEntered = 0;
+        Integer peopleEntered = 5;
         Integer bushelsPlanted = 0;
         Integer bushelsHarvested = 0;
         Integer grainsEatenByRats = 0;
+        Integer totalPeopleStarved = 0;
 
 
         Player player = new Player(population, bushelsOfGrain, acresOfLand, landValue);
@@ -34,42 +34,42 @@ public class Hammurabi {
 
             System.out.println(scanner.printSummary(year, peopleStarved, peopleEntered, player.getPeople(), bushelsHarvested,
                    grainsEatenByRats, player.getBushelsOfGrain(), player.getAcresOfLand(), player.getLandValue()));
-            if (!plagueCount.equals(player.getPeople())){
-                System.out.println("There was a horrible plague! " + plagueDeaths + " of our citizens have perished!" + "\n");
-            }
 
-            Integer boughtAcres = scanner.askHowManyAcresToBuy(landValue, bushelsOfGrain);
-            player.setAcresOfLand(acresOfLand + boughtAcres);
-            player.setBushelsOfGrain(bushelsOfGrain - (boughtAcres * landValue));
+
+            Integer boughtAcres = scanner.askHowManyAcresToBuy(player.getLandValue(), player.getBushelsOfGrain());
+            player.setAcresOfLand(player.getAcresOfLand() + boughtAcres);
+            player.setBushelsOfGrain(player.getBushelsOfGrain() - (boughtAcres * player.getLandValue()));
 
             if (boughtAcres == 0) {
-                Integer soldAcres = scanner.askHowManyAcresToSell(acresOfLand);
-                player.setAcresOfLand(acresOfLand - soldAcres);
-                player.setBushelsOfGrain(bushelsOfGrain + (soldAcres * landValue));
+                Integer soldAcres = scanner.askHowManyAcresToSell(player.getAcresOfLand());
+                player.setAcresOfLand(player.getAcresOfLand() - soldAcres);
+                player.setBushelsOfGrain(player.getBushelsOfGrain() + (soldAcres * player.getLandValue()));
             }
 
-            Integer grainsToFeedPeople = scanner.askHowMuchGrainToFeedPeople(bushelsOfGrain);
-            Integer fedPeople = grainsToFeedPeople / 20;
-            Integer notFed = player.getPeople() - fedPeople;
-            player.setPeople(player.getPeople() - notFed);
+            Integer grainsToFeedPeople = scanner.askHowMuchGrainToFeedPeople(player.getBushelsOfGrain());
+//            Integer fedPeople = grainsToFeedPeople / 20;
+//            Integer notFed = player.getPeople() - fedPeople;
+//            player.setPeople(player.getPeople() - notFed);
 
-            bushelsPlanted = scanner.askHowManyAcresToPlant(acresOfLand, player.getPeople(), bushelsOfGrain);
+            bushelsPlanted = scanner.askHowManyAcresToPlant(player.getAcresOfLand(), player.getPeople(), player.getBushelsOfGrain());
 
             //Year events start here
             //Plague deaths.
-            plagueDeaths = random.plagueDeaths(player.getPeople());
+            plagueDeaths = plagueDeaths(player.getPeople());
             plagueCount = player.getPeople() - plagueDeaths;
 
             if (!plagueCount.equals(player.getPeople())){
-                System.out.println("There was a horrible plague! " + plagueDeaths + " of our citizens have perished!" + "\n");
+                System.out.println("There was a horrible plague! " + plagueDeaths + " of our citizens have perished!" );
             }
             player.setPeople(plagueCount);
 
             //This is where people starve
-            peopleStarved = random.starvationDeaths(player.getPeople(), grainsToFeedPeople);
+            peopleStarved = starvationDeaths(player.getPeople(), grainsToFeedPeople);
+            totalPeopleStarved += peopleStarved;
+            player.setPeople(player.getPeople() - peopleStarved);
 
             //This is where there is an uprising if too many people. (This works) !
-            if (random.uprising(player.getPeople(), peopleStarved)){
+            if (uprising(player.getPeople(), peopleStarved)){
                 System.out.println("Too many people have starved." + "\n" + "The remaining citizens have gathered at the front door to throw us out." +"\n"
                 + "Goodbye!");
                 break;
@@ -77,27 +77,32 @@ public class Hammurabi {
 
             //This is where we get the immigrants to come in
             if (peopleStarved == 0){
-            peopleEntered = random.immigrants(player.getPeople(), player.getAcresOfLand(), player.getBushelsOfGrain());
+            peopleEntered = immigrants(player.getPeople(), player.getAcresOfLand(), player.getBushelsOfGrain());
             player.setPeople(player.getPeople() + peopleEntered);
             } else { peopleEntered = 0;}
 
             //This is where the planted bushels are harvested
-            bushelsHarvested = random.harvest(bushelsPlanted);
+            bushelsHarvested = harvest(bushelsPlanted);
             player.setBushelsOfGrain(player.getBushelsOfGrain() + bushelsHarvested);
 
             //This is where the rats eat my shit.
-            grainsEatenByRats = random.grainEatenByRats(bushelsOfGrain);
+            grainsEatenByRats = grainEatenByRats(bushelsOfGrain);
             player.setBushelsOfGrain(player.getBushelsOfGrain() - grainsEatenByRats);
 
 
             //Random value to setup the next years land value (works).
-            player.setLandValue(random.newCostOfLand());
+            player.setLandValue(newCostOfLand());
 
 
 
             year += 1;
 
 
+        }
+
+        if (year > 10){
+            int acresPerPerson = player.getAcresOfLand() / player.getPeople();
+            System.out.println(scanner.finalSummary(player.getAcresOfLand(),acresPerPerson, totalPeopleStarved, player.getBushelsOfGrain() ));
         }
 
 
@@ -115,7 +120,8 @@ public class Hammurabi {
 
     public Integer starvationDeaths(int population, int bushelsFedToPeople) {
         int peopleFed = bushelsFedToPeople / 20;
-        if (peopleFed >= population){
+
+        if (peopleFed > population){
             return 0;
         }
 
