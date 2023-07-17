@@ -48,6 +48,8 @@ public class Hammurabi {
             }
 
             Integer grainsToFeedPeople = scanner.askHowMuchGrainToFeedPeople(player.getBushelsOfGrain());
+            player.setBushelsOfGrain(player.getBushelsOfGrain() - grainsToFeedPeople);
+
 
 
             bushelsPlanted = scanner.askHowManyAcresToPlant(player.getAcresOfLand(), player.getPeople(), player.getBushelsOfGrain());
