@@ -37,6 +37,7 @@ public class Hammurabi {
 
 
             Integer boughtAcres = scanner.askHowManyAcresToBuy(player.getLandValue(), player.getBushelsOfGrain());
+
             player.setAcresOfLand(player.getAcresOfLand() + boughtAcres);
             player.setBushelsOfGrain(player.getBushelsOfGrain() - (boughtAcres * player.getLandValue()));
 
@@ -47,14 +48,12 @@ public class Hammurabi {
             }
 
             Integer grainsToFeedPeople = scanner.askHowMuchGrainToFeedPeople(player.getBushelsOfGrain());
-//            Integer fedPeople = grainsToFeedPeople / 20;
-//            Integer notFed = player.getPeople() - fedPeople;
-//            player.setPeople(player.getPeople() - notFed);
+
 
             bushelsPlanted = scanner.askHowManyAcresToPlant(player.getAcresOfLand(), player.getPeople(), player.getBushelsOfGrain());
 
             //Year events start here
-            //Plague deaths.
+            //Plague deaths. (working)
             plagueDeaths = plagueDeaths(player.getPeople());
             plagueCount = player.getPeople() - plagueDeaths;
 
@@ -63,7 +62,7 @@ public class Hammurabi {
             }
             player.setPeople(plagueCount);
 
-            //This is where people starve
+            //This is where people starve (working)
             peopleStarved = starvationDeaths(player.getPeople(), grainsToFeedPeople);
             totalPeopleStarved += peopleStarved;
             player.setPeople(player.getPeople() - peopleStarved);
@@ -75,17 +74,17 @@ public class Hammurabi {
                 break;
             }
 
-            //This is where we get the immigrants to come in
+            //This is where we get the immigrants to come in (working)
             if (peopleStarved == 0){
             peopleEntered = immigrants(player.getPeople(), player.getAcresOfLand(), player.getBushelsOfGrain());
             player.setPeople(player.getPeople() + peopleEntered);
             } else { peopleEntered = 0;}
 
-            //This is where the planted bushels are harvested
+            //This is where the planted bushels are harvested (working)
             bushelsHarvested = harvest(bushelsPlanted);
             player.setBushelsOfGrain(player.getBushelsOfGrain() + bushelsHarvested);
 
-            //This is where the rats eat my shit.
+            //This is where the rats eat my shit. (working)
             grainsEatenByRats = grainEatenByRats(bushelsOfGrain);
             player.setBushelsOfGrain(player.getBushelsOfGrain() - grainsEatenByRats);
 
@@ -100,7 +99,7 @@ public class Hammurabi {
 
         }
 
-        if (year > 10){
+        if (year > 10){ //(this is untested)
             int acresPerPerson = player.getAcresOfLand() / player.getPeople();
             System.out.println(scanner.finalSummary(player.getAcresOfLand(),acresPerPerson, totalPeopleStarved, player.getBushelsOfGrain() ));
         }
